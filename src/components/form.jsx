@@ -25,7 +25,57 @@ export default function Form() {
             setfnameErr('')
         }
     }
-
+    const handleLname = (e) => {
+        if(e.target.value.length < 2) {
+            setlnameErr("Last Name must be at least 2 characters.")
+        } else {
+            setLname(e.target.value)
+            setlnameErr('')
+        }
+    }
+    const handleEmail = (e) => {
+        if(e.target.value.length < 5) {
+            setemailErr("Email must be at least 5 characters.")
+        } else {
+            setEmail(e.target.value)
+            setemailErr('')
+        }
+    }
+    const handlePassword = (e) => {
+        if(e.target.getAttribute('name') == 'password') {
+            if(e.target.value.length < 8) {
+                setpasswordErr({
+                    password: "Password must be at least 8 characters.",
+                    confirm: passwordErr.confirm
+                })
+            } else {
+                setPassword({
+                    password: e.target.value,
+                    confirm: password.confirm
+                })
+                setpasswordErr({
+                    password: "",
+                    confirm: passwordErr.confirm
+                })
+            }
+        } else {
+            if(e.target.value != password.password) {
+                setpasswordErr({
+                    password: passwordErr.password,
+                    confirm: "Passwords must match",
+                })
+            } else {
+                setPassword({
+                    password: password.password,
+                    confirm: e.target.value
+                })
+                setpasswordErr({
+                    password: passwordErr.password,
+                    confirm: "",
+                })
+            }
+        }
+    }
     return (
         <div style={formStyle}>
             <form onSubmit={(e) => e.preventDefault()}>
@@ -36,24 +86,24 @@ export default function Form() {
                 {fnameErr?<p style={{color:'red'}}>{fnameErr}</p>:''}
                 <div style={formGroup}>
                     <label htmlFor="lname">Last Name: </label>
-                    <input style={inputStyle} type="text" onChange={(e) => setLname(e.target.value)}/>
+                    <input style={inputStyle} type="text" onChange={handleLname}/>
                 </div>
                 {lnameErr?<p style={{color:'red'}}>{lnameErr}</p>:''}
                 <div style={formGroup}>
                     <label htmlFor="email">Email: </label>
-                    <input style={inputStyle} type="text" onChange={(e) => setEmail(e.target.value)}/>
+                    <input style={inputStyle} type="text" onChange={handleEmail}/>
                 </div>
                 {emailErr?<p style={{color:'red'}}>{emailErr}</p>:''}
                 <div style={formGroup}>
                     <label htmlFor="password">Password: </label>
-                    <input style={inputStyle} type="text" onChange={(e) => setPassword({password: e.target.value, confirm: password.confirm})}/>
+                    <input name="password" style={inputStyle} type="text" onChange={handlePassword}/>
                 </div>
                 {passwordErr.password?<p style={{color:'red'}}>{passwordErr.password}</p>:''}
                 <div style={formGroup}>
                     <label htmlFor="confirm">Confirm Password: </label>
-                    <input style={inputStyle} type="text" onChange={(e) => setPassword({confirm: e.target.value, password: password.password})}/>
+                    <input name="confirm" style={inputStyle} type="text" onChange={handlePassword}/>
                 </div>
-                
+                {passwordErr.confirm?<p style={{color:'red'}}>{passwordErr.confirm}</p>:''}
             </form>
             <Info fname={fname} lname={lname} email={email} password={password} />
         </div>
