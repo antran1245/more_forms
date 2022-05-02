@@ -42,7 +42,7 @@ export default function Form() {
         }
     }
     const handlePassword = (e) => {
-        if(e.target.getAttribute('name') == 'password') {
+        if(e.target.getAttribute('name') === 'password') {
             if(e.target.value.length < 8) {
                 setpasswordErr({
                     password: "Password must be at least 8 characters.",
@@ -59,7 +59,7 @@ export default function Form() {
                 })
             }
         } else {
-            if(e.target.value != password.password) {
+            if(e.target.value !== password.password) {
                 setpasswordErr({
                     password: passwordErr.password,
                     confirm: "Passwords must match",
